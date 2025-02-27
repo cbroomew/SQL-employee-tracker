@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/cbroomew/SQL-employee-tracker#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "inquirer": "^8.2.4",
     "pg": "^8.13.3"
   }
