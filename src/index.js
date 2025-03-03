@@ -8,39 +8,39 @@ const mainMenu = async () => {
             name: 'action',
             message: 'What would you like to do?',
             choices: [
-                'View all departments',
-                'View all roles',
-                'View all employees',
-                'Add a department',
-                'Add a role',
-                'Add an employee',
-                'Update an employee role',
+                'View departments',
+                'View roles',
+                'View employees',
+                'Add department',
+                'Add role',
+                'Add employee',
+                'Update employee role',
                 'Exit'
             ]
         }
     ]);
 
     switch (answer.action) {
-        case 'View all departments':
-            await viewAllDepartments();
+        case 'View departments':
+            await viewDepartments();
             break;
-        case 'View all roles':
-            await viewAllRoles();
+        case 'View roles':
+            await viewRoles();
             break;
-        case 'View all employees':
-            await viewAllEmployees();
+        case 'View employees':
+            await viewEmployees();
             break;
-        case 'Add a department':
+        case 'Add department':
             await addDepartment();
             break;
-        case 'Add a role':
+        case 'Add role':
             await addRole();
             break;
-        case 'Add an employee':
+        case 'Add employee':
             await addEmployee();
             break;
-        case 'Update an employee role':
-            await updateEmployeeRole();
+        case 'Update employee role':
+            await updateEmployee();
             break;
         case 'Exit':
             await pool.end();
@@ -49,7 +49,7 @@ const mainMenu = async () => {
     }
 };
 
-const viewAllDepartments = async () => {
+const viewDepartments = async () => {
     try {
         const res = await pool.query('SELECT * FROM department');
         console.table(res.rows);
@@ -59,7 +59,7 @@ const viewAllDepartments = async () => {
     mainMenu();
 };
 
-const viewAllRoles = async () => {
+const viewRoles = async () => {
     try {
         const res = await pool.query('SELECT * FROM role');
         console.table(res.rows);
@@ -69,7 +69,7 @@ const viewAllRoles = async () => {
     mainMenu();
 };
 
-const viewAllEmployees = async () => {
+const viewEmployees = async () => {
     try {
         const res = await pool.query('SELECT * FROM employee');
         console.table(res.rows);
@@ -102,23 +102,23 @@ const addRole = async () => {
         {
             type: 'input',
             name: 'title',
-            message: 'Enter the title of the role:'
+            message: 'Enter the role:'
         },
         {
             type: 'input',
             name: 'salary',
-            message: 'Enter the salary of the role:'
+            message: 'Enter the salary:'
         },
         {
             type: 'input',
             name: 'department_id',
-            message: 'Enter the department ID for the role:'
+            message: 'Enter the department ID:'
         }
     ]);
 
     try {
         await pool.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [answer.title, answer.salary, answer.department_id]);
-        console.log('Role added!');
+        console.log('Role added');
     } catch (err) {
         console.error(err.stack);
     }
@@ -130,17 +130,17 @@ const addEmployee = async () => {
         {
             type: 'input',
             name: 'first_name',
-            message: 'Enter the first name of the employee:'
+            message: 'Enter the employees first name:'
         },
         {
             type: 'input',
             name: 'last_name',
-            message: 'Enter the last name of the employee:'
+            message: 'Enter the employees last name:'
         },
         {
             type: 'input',
             name: 'role_id',
-            message: 'Enter the role ID for the employee:'
+            message: 'Enter the employees role ID:'
         },
         {
             type: 'input',
@@ -151,14 +151,14 @@ const addEmployee = async () => {
 
     try {
         await pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [answer.first_name, answer.last_name, answer.role_id, answer.manager_id]);
-        console.log('Employee added!');
+        console.log('Employee added');
     } catch (err) {
         console.error(err.stack);
     }
     mainMenu();
 };
 
-const updateEmployeeRole = async () => {
+const updateEmployee = async () => {
     const answer = await inquirer.prompt([
         {
             type: 'input',
